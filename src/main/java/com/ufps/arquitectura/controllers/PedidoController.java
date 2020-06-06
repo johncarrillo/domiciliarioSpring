@@ -15,10 +15,9 @@ import com.ufps.arquitectura.valueObject.EmpresaProducto;
 import com.ufps.arquitectura.valueObject.EmpresaProductoPedido;
 import com.ufps.arquitectura.valueObject.Pedido;
 import com.ufps.arquitectura.valueObject.Producto;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,6 +104,7 @@ public class PedidoController {
 
     @PostMapping("/pedido/confirmarEntrega")
     public String confirmarEntrega(Pedido pedido) {
+    	pedido.setFechaEntrega(new Date());; 
     	pedidoService.save(pedido);
         return "redirect:/pedido/listar";
     }
