@@ -39,21 +39,14 @@ public class ClienteController {
 
     @GetMapping("/listar")
     public List<Cliente> listar(Model model) {
-       // model.addAttribute("clientes", clienteService.findAll());
+        // model.addAttribute("clientes", clienteService.findAll());
         return clienteService.findAll();
     }
 
-    @GetMapping("/cliente/formulario/{id}")
-    public String modificar(@PathVariable(value="id") Long id, Model model) {
-        model.addAttribute("mensaje", "Modificar la Cliente");
-        Cliente cliente = null;
-        if (id > 0) {
-            cliente = clienteService.findById(id);
-        } else {
-            return "redirect:/cliente/listar";
-        }
-        model.addAttribute("cliente", cliente);
-        return "formularioCliente";
+    @GetMapping("/{id}")
+    public Cliente consultar(@PathVariable(value = "id") Long id) {
+
+        return clienteService.findById(id);
     }
 
     @PostMapping("/cliente/registrar")
