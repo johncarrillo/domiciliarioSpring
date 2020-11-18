@@ -5,6 +5,8 @@
  */
 package com.ufps.arquitectura.controllers;
 
+import java.util.List;
+
 import com.ufps.arquitectura.service.IClienteService;
 import com.ufps.arquitectura.valueObject.Cliente;
 import com.ufps.arquitectura.valueObject.Empresa;
@@ -14,12 +16,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author jjcarrillo
  */
-@Controller
+@RestController
+@RequestMapping("/cliente")
 public class ClienteController {
 
     @Autowired
@@ -32,10 +37,10 @@ public class ClienteController {
         return "formularioCliente";
     }
 
-    @GetMapping("/cliente/listar")
-    public String listar(Model model) {
-        model.addAttribute("clientes", clienteService.findAll());
-        return "listaCliente";
+    @GetMapping("/listar")
+    public List<Cliente> listar(Model model) {
+       // model.addAttribute("clientes", clienteService.findAll());
+        return clienteService.findAll();
     }
 
     @GetMapping("/cliente/formulario/{id}")
