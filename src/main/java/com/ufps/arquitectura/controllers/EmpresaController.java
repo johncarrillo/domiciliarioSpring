@@ -5,21 +5,30 @@
  */
 package com.ufps.arquitectura.controllers;
 
+import java.util.List;
+
 import com.ufps.arquitectura.service.IEmpresaProductoService;
 import com.ufps.arquitectura.service.IEmpresaService;
 import com.ufps.arquitectura.valueObject.Empresa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author jjcarrillo
  */
-@Controller
+@RestController
+@RequestMapping("/empresa")
 public class EmpresaController {
 
     @Autowired
@@ -28,30 +37,29 @@ public class EmpresaController {
     @Autowired
     private IEmpresaProductoService empresaProductoService;
 
-    @GetMapping("/empresa/formulario")
-    public String registrar(Model model) {
-        model.addAttribute("mensaje", "Registrar la Empresa");
-        model.addAttribute("empresa", new Empresa());
-        return "formularioEmpresa";
+ 
+    @GetMapping("/listar")
+    public List<Empresa> listar(Model model) {
+        return empresaService.findAll();
     }
 
-    @GetMapping("/empresa/formulario/{id}")
-    public String modificar(@PathVariable(value="id") Long id, Model model) {
-        model.addAttribute("mensaje", "Modificar la Empresa");
-        Empresa empresa = null;
-        if (id > 0) {
-            empresa = empresaService.findById(id);
-        } else {
-            return "redirect:/empresa/listar";
-        }
-        model.addAttribute("empresa", empresa);
-        return "formularioEmpresa";
+    @GetMapping("/{id}")
+    public Empresa consultar(@PathVariable(value = "id") Long id) {
+        return empresaService.findById(id);
     }
 
-    @GetMapping("/empresa/listar")
-    public String listar(Model model) {
-        model.addAttribute("empresas", empresaService.findAll());
-        return "listaEmpresa";
+    @PostMapping("/registrar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Empresa registrar(@RequestBody Empresa empresa) {
+        empresaService.save(empresa);
+        return empresa;
+    }
+
+    @PutMapping("/editar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Empresa modificar(@RequestBody Empresa empresa) {
+        empresaService.save(empresa);
+        return empresa;
     }
 
     @GetMapping("/empresa/producto/{id}")
@@ -66,9 +74,4 @@ public class EmpresaController {
         return "listaProductoEmpresa";
     }
 
-    @PostMapping("/empresa/registrar")
-    public String registrar(Empresa empresa) {
-        empresaService.save(empresa);
-        return "redirect:/empresa/listar";
-    }
 }
