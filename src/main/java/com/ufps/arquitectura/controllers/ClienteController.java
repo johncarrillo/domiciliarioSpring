@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,13 +35,6 @@ public class ClienteController {
     @Autowired
     private IClienteService clienteService;
 
-    @GetMapping("/cliente/formulario")
-    public String registrar(Model model) {
-        model.addAttribute("mensaje", "Registrar la Cliente");
-        model.addAttribute("cliente", new Cliente());
-        return "formularioCliente";
-    }
-
     @GetMapping("/listar")
     public List<Cliente> listar(Model model) {
         // model.addAttribute("clientes", clienteService.findAll());
@@ -56,6 +50,13 @@ public class ClienteController {
     @PostMapping("/registrar")
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente registrar(@RequestBody Cliente cliente) {
+        clienteService.save(cliente);
+        return cliente;
+    }
+
+    @PutMapping("/editar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cliente modificar(@RequestBody Cliente cliente) {
         clienteService.save(cliente);
         return cliente;
     }
