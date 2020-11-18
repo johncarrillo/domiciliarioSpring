@@ -10,6 +10,7 @@ import java.util.List;
 import com.ufps.arquitectura.service.IEmpresaProductoService;
 import com.ufps.arquitectura.service.IEmpresaService;
 import com.ufps.arquitectura.valueObject.Empresa;
+import com.ufps.arquitectura.valueObject.EmpresaProducto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,6 @@ public class EmpresaController {
     @Autowired
     private IEmpresaProductoService empresaProductoService;
 
- 
     @GetMapping("/listar")
     public List<Empresa> listar(Model model) {
         return empresaService.findAll();
@@ -62,16 +62,12 @@ public class EmpresaController {
         return empresa;
     }
 
-    @GetMapping("/empresa/producto/{id}")
-    public String verProductos(@PathVariable(value="id") Long id, Model model) {
+    @GetMapping("/producto/{id}")
+    public List<EmpresaProducto> verProductos(@PathVariable(value = "id") Long id, Model model) {
         Empresa empresa = null;
-        if (id > 0) {
-            empresa = empresaService.findById(id);
-        } else {
-            return "redirect:/empresa/listar";
-        }
-        model.addAttribute("empresaProductos", empresa.getEmpresaProductos());
-        return "listaProductoEmpresa";
+        empresa = empresaService.findById(id);
+        return empresa.getEmpresaProductos();
+
     }
 
 }
