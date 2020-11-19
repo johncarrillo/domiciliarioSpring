@@ -5,6 +5,8 @@
  */
 package com.ufps.arquitectura.controllers;
 
+import java.util.List;
+
 import com.ufps.arquitectura.service.IEmpresaProductoService;
 import com.ufps.arquitectura.service.IEmpresaService;
 import com.ufps.arquitectura.service.IProductoService;
@@ -15,15 +17,22 @@ import com.ufps.arquitectura.valueObject.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author jjcarrillo
  */
-@Controller
+@RestController
+@RequestMapping("/producto")
 public class ProductoController {
 
     @Autowired
@@ -35,49 +44,36 @@ public class ProductoController {
     @Autowired
     private IEmpresaProductoService empresaProductoService;
 
-    @GetMapping("/producto/formulario")
-    public String registrar(Model model) {
-        model.addAttribute("mensaje", "Registrar Producto");
-        model.addAttribute("producto", new Producto());
-        return "formularioProducto";
+
+    @GetMapping("/listar")
+    public List<Producto> listar() {
+        return productoService.findAll();
     }
 
-    @GetMapping("/producto/listar")
-    public String listar(Model model) {
-        model.addAttribute("productos", productoService.findAll());
-        return "listaProducto";
+    @GetMapping("/{id}")
+    public Producto consultar(@PathVariable(value = "id") Long id) {
+        return productoService.findById(id);
     }
 
-    @GetMapping("/producto/formulario/{id}")
-    public String modificar(@PathVariable(value="id") Long id, Model model) {
-        model.addAttribute("mensaje", "Modificar la Producto");
-        Producto producto = null;
-        if (id > 0) {
-            producto = productoService.findById(id);
-        } else {
-            return "redirect:/producto/listar";
-        }
-        model.addAttribute("producto", producto);
-        return "formularioProducto";
-    }
-
-    @GetMapping("/producto/empresa/formulario")
-    public String registrarProductoEmpresa(Model model) {
-        model.addAttribute("productos", productoService.findAll());
-        model.addAttribute("empresas", empresaService.findAll());
-        model.addAttribute("empresaProducto", new EmpresaProducto());
-        return "formularioEmpresaProducto";
-    }
-
-    @PostMapping("/producto/registrar")
-    public String registrar(Producto producto) {
+    @PostMapping("/registrar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Producto registrar(@RequestBody Producto producto) {
         productoService.save(producto);
-        return "redirect:/producto/listar";
+        return producto;
     }
 
-    @PostMapping("/producto/empresa/registrar")
-    public String registrarProductoEmpresa(EmpresaProducto empresaProducto) {
-        empresaProductoService.save(empresaProducto);
-        return "redirect:/empresa/listar";
+    @PutMapping("/editar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Producto modificar(@RequestBody Producto producto) {
+        productoService.save(producto);
+        return producto;
     }
+
+
+    /*@PostMapping("/empresa/registrar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmpresaProducto registrarProductoEmpresa(EmpresaProducto empresaProducto) {
+        empresaProductoService.save(empresaProducto);
+        return empresaProducto;
+    }*/
 }

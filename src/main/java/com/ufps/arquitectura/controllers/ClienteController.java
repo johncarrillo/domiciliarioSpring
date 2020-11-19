@@ -36,14 +36,13 @@ public class ClienteController {
     private IClienteService clienteService;
 
     @GetMapping("/listar")
-    public List<Cliente> listar(Model model) {
+    public List<Cliente> listar() {
         // model.addAttribute("clientes", clienteService.findAll());
         return clienteService.findAll();
     }
 
     @GetMapping("/{id}")
     public Cliente consultar(@PathVariable(value = "id") Long id) {
-
         return clienteService.findById(id);
     }
 

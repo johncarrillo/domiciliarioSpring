@@ -36,7 +36,7 @@ public class DomiciliarioController {
     private IDomiciliarioService domiciliarioService;
 
     @GetMapping("/listar")
-    public List<Domiciliario> listar(Model model) {
+    public List<Domiciliario> listar() {
         return domiciliarioService.findAll();
     }
 

@@ -39,7 +39,7 @@ public class EmpresaController {
     private IEmpresaProductoService empresaProductoService;
 
     @GetMapping("/listar")
-    public List<Empresa> listar(Model model) {
+    public List<Empresa> listar() {
         return empresaService.findAll();
     }
 
@@ -63,7 +63,7 @@ public class EmpresaController {
     }
 
     @GetMapping("/producto/{id}")
-    public List<EmpresaProducto> verProductos(@PathVariable(value = "id") Long id, Model model) {
+    public List<EmpresaProducto> verProductos(@PathVariable(value = "id") Long id) {
         Empresa empresa = null;
         empresa = empresaService.findById(id);
         return empresa.getEmpresaProductos();
