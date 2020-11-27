@@ -34,6 +34,8 @@ public class EmpresaProductoPedido implements Serializable{
     @ManyToOne(fetch=FetchType.LAZY)
     private EmpresaProducto empresaProducto;
 
+    private double calificacion;
+
     public EmpresaProductoPedido() {
     }
 
@@ -68,6 +70,15 @@ public class EmpresaProductoPedido implements Serializable{
     public void setEmpresaProducto(EmpresaProducto empresaProducto) {
         this.empresaProducto = empresaProducto;
     }
+    
 
     private static final long serialVersionUID = 1L;
+
+    public double getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(double calificacion) {
+        this.calificacion = calificacion;
+    }
 }

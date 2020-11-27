@@ -70,10 +70,10 @@ public class ProductoController {
     }
 
 
-    /*@PostMapping("/empresa/registrar")
+    @PostMapping("/empresa/registrar")
     @ResponseStatus(HttpStatus.CREATED)
     public EmpresaProducto registrarProductoEmpresa(EmpresaProducto empresaProducto) {
         empresaProductoService.save(empresaProducto);
         return empresaProducto;
-    }*/
+    }
 }

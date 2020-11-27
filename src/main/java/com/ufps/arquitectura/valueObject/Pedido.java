@@ -48,6 +48,12 @@ public class Pedido implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEntrega;
 
+    private double valor_domicilio;
+
+    private String direccion;
+
+    private String calificacion_domiciliario;
+
     @OneToMany(fetch=FetchType.LAZY, mappedBy="pedido")
     private List<EmpresaProductoPedido> empresaProductoPedidos;
 
@@ -115,10 +121,36 @@ public class Pedido implements Serializable{
         empresaProductoPedidos.add(empresaProductoPedido);
     }
 
+    
+
     @PrePersist
     public void prePersist() {
         fechaCreacion = new Date();
     }
 
     private static final long serialVersionUID = 1L;
+
+    public double getValor_domicilio() {
+        return valor_domicilio;
+    }
+
+    public void setValor_domicilio(double valor_domicilio) {
+        this.valor_domicilio = valor_domicilio;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCalificacion_domiciliario() {
+        return calificacion_domiciliario;
+    }
+
+    public void setCalificacion_domiciliario(String calificacion_domiciliario) {
+        this.calificacion_domiciliario = calificacion_domiciliario;
+    }
 }

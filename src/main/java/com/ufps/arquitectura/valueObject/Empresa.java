@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,10 @@ import javax.persistence.Table;
 @Table(name="empresa")
 public class Empresa implements Serializable{
 
+    public enum Tipo {
+        COMIDAS_RAPIDAS, EJECUTIVO, HELADERIA;
+    }
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +39,13 @@ public class Empresa implements Serializable{
     private String nombre;
 
     private String direccion;
+
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo;
+
+    private String descripcion;
+
+    private String imagen;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="empresa")
     private List<Pedido> pedidos;
@@ -100,6 +113,33 @@ public class Empresa implements Serializable{
     public void addPedido (Pedido pedido) {
         pedidos.add(pedido);
     }
+    
 
     private static final long serialVersionUID = 1L;
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    
 }

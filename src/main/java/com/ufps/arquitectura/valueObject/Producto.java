@@ -29,6 +29,8 @@ public class Producto implements Serializable{
 
     private String nombre;
 
+    private String imagen;
+
     @OneToMany(fetch=FetchType.LAZY, mappedBy="producto")
     private List<EmpresaProducto> empresaProductos;
 
@@ -59,6 +61,16 @@ public class Producto implements Serializable{
     public void addEmpresaProducto (EmpresaProducto empresaProducto) {
         empresaProductos.add(empresaProducto);
     }
+
+    
     
     private static final long serialVersionUID = 1L;
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }

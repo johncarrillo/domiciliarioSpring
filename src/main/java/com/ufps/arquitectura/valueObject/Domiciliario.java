@@ -36,6 +36,8 @@ public class Domiciliario implements Serializable{
 
     private String celular;
 
+    private String token_usuario;
+
     @OneToMany(fetch=FetchType.LAZY, mappedBy="domiciliario")
     private List<Pedido> pedidos;
 
@@ -86,6 +88,15 @@ public class Domiciliario implements Serializable{
     public void addPedido (Pedido pedido) {
         pedidos.add(pedido);
     }
+    
 
     private static final long serialVersionUID = 1L;
+
+    public String getToken_usuario() {
+        return token_usuario;
+    }
+
+    public void setToken_usuario(String token_usuario) {
+        this.token_usuario = token_usuario;
+    }
 }
