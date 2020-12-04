@@ -1,19 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head th:replace="layout/layout :: head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
 <body>
-    <h3 th:text="${titulo}"></h3>
+    <div class="card border-primary text-center">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
 
-    <ul>
-        <li> <a th:href="@{/empresa/registrar}">Registrar empresa</a></li>
-        <li> <a th:href="@{/empresa/agregarproducto}">Asignar producto</a></li>
-    </ul>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a th:href="@{/empresa/registrar}"> Registrar empresa</a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/empresa/asignarproducto}"> Asignar producto</a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/producto/registrar}"> Registrar producto</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
 </body>
 
 </html>

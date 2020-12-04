@@ -26,12 +26,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author jjcarrillo
  */
-@RestController
+@Controller
 @RequestMapping("/producto")
 public class ProductoController {
 
@@ -44,6 +45,11 @@ public class ProductoController {
     @Autowired
     private IEmpresaProductoService empresaProductoService;
 
+    @GetMapping(value = "/registrar")
+    public String viewRegistrar(Model model) {
+        model.addAttribute("titulo", "Registrar Producto");
+        return "registrarproducto";
+    }
 
     @GetMapping("/listar")
     public List<Producto> listar() {
@@ -55,11 +61,12 @@ public class ProductoController {
         return productoService.findById(id);
     }
 
+
+
     @PostMapping("/registrar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Producto registrar(@RequestBody Producto producto) {
+    public ModelAndView  registrar(Producto producto) {
         productoService.save(producto);
-        return producto;
+        return new ModelAndView("redirect:/empresa/");
     }
 
     @PutMapping("/editar")

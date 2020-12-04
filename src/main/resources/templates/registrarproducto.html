@@ -15,24 +15,12 @@
         <div class="card border-primary text-center ">
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body">
-                <form th:action="@{/empresa/registrar}" th:object=${empresa} method="post">
+                <form th:action="@{/producto/registrar}" th:object=${producto} method="post">
                     <div class="form-group text-center">
                         <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre" autofocus required/>
                     </div>
                     <div class="form-group text-center">
-                        <input type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Descripcion" autofocus required/>
-                    </div>
-                    <div class="form-group text-center">
-                        <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Direccion" autofocus required/>
-                    </div>
-                    <div class="form-group text-center">
                         <input type="text" name="imagen" id="imagen" class="form-control" placeholder="Imagen" autofocus required/>
-                    </div>
-                    <div class="form-group text-center">
-                        <input type="text" name="nit" id="nit" class="form-control" placeholder="Nit" autofocus required/>
-                    </div>
-                    <div class="form-group text-center">
-                        <input type="text" name="tipo" id="tipo" class="form-control" th:object=${tipo} placeholder="Tipo" autofocus required/>
                     </div>
                     <div class="form-group text-center">
                         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Registrar" />
