@@ -21,14 +21,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
  * @author jjcarrillo
  */
-@RestController
+@Controller
 @RequestMapping("/empresa")
 public class EmpresaController {
 
@@ -38,36 +40,53 @@ public class EmpresaController {
     @Autowired
     private IEmpresaProductoService empresaProductoService;
 
-    @GetMapping("/listar")
-    public List<Empresa> listar() {
-        return empresaService.findAll();
+    @GetMapping(value = {"/", "/index"})
+    public String index(Model model){
+        model.addAttribute("titulo", "Bienvenido");
+        return "index";
+    }
+    @GetMapping(value = "/registrar")
+    public String viewRegistrar(Model model) {
+        model.addAttribute("titulo", "Registrar Empresa");
+        System.out.println("QUE PASA PAI");
+        return "registrarempresa";
     }
 
-    @GetMapping("/{id}")
-    public Empresa consultar(@PathVariable(value = "id") Long id) {
-        return empresaService.findById(id);
-    }
-
-    @PostMapping("/registrar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Empresa registrar(@RequestBody Empresa empresa) {
-        empresaService.save(empresa);
-        return empresa;
-    }
-
-    @PutMapping("/editar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Empresa modificar(@RequestBody Empresa empresa) {
-        empresaService.save(empresa);
-        return empresa;
-    }
-
-    @GetMapping("/producto/{id}")
-    public List<EmpresaProducto> verProductos(@PathVariable(value = "id") Long id) {
-        Empresa empresa = null;
-        empresa = empresaService.findById(id);
-        return empresa.getEmpresaProductos();
+    @RequestMapping(value = "/registrar", method = RequestMethod.POST)
+    public String registrar(Empresa empresa, RedirectAttributes flash) {
+        if (empresa != null) {
+            empresaService.save(empresa);
+            flash.addFlashAttribute("error", "HA OCURRIDO UN ERROR");
+            return "redirect:index";
+        } else {
+            flash.addFlashAttribute("error", "HA OCURRIDO UN ERROR");
+            return "registrarempresa";
+        }
 
     }
+
+    /*
+     * @GetMapping("/listar") public List<Empresa> listar() { return
+     * empresaService.findAll(); }
+     * 
+     * @GetMapping("/{id}") public Empresa consultar(@PathVariable(value = "id")
+     * Long id) { return empresaService.findById(id); }
+     * 
+     * @PostMapping("/registrar")
+     * 
+     * @ResponseStatus(HttpStatus.CREATED) public Empresa registrar(@RequestBody
+     * Empresa empresa) { empresaService.save(empresa); return empresa; }
+     * 
+     * @PutMapping("/editar")
+     * 
+     * @ResponseStatus(HttpStatus.CREATED) public Empresa modificar(@RequestBody
+     * Empresa empresa) { empresaService.save(empresa); return empresa; }
+     * 
+     * @GetMapping("/producto/{id}") public List<EmpresaProducto>
+     * verProductos(@PathVariable(value = "id") Long id) { Empresa empresa = null;
+     * empresa = empresaService.findById(id); return empresa.getEmpresaProductos();
+     * 
+     * }
+     */
 
 }
