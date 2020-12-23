@@ -33,7 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author jjcarrillo
  */
-@Controller
+@RestController
 @RequestMapping("/empresa")
 public class EmpresaController {
 
@@ -46,55 +46,13 @@ public class EmpresaController {
     @Autowired
     private IEmpresaProductoService empresaProductoService;
 
-    @GetMapping(value = { "/", "/index" })
-    public String index(Model model) {
-        model.addAttribute("titulo", "Bienvenido");
-        return "index";
+     @GetMapping("/listar")
+     public List<Empresa> listar() {
+    	 System.out.println("ENTRE");
+    	 return empresaService.findAll();
     }
-
-    @GetMapping(value = "/registrar")
-    public String viewRegistrar(Model model) {
-        model.addAttribute("titulo", "Registrar Empresa");
-
-        return "registrarempresa";
-    }
-
-    @RequestMapping(value = "/registrar", method = RequestMethod.POST)
-    public String registrar(Empresa empresa, RedirectAttributes flash) {
-        if (empresa != null) {
-            empresaService.save(empresa);
-            flash.addFlashAttribute("error", "HA OCURRIDO UN ERROR");
-            return "redirect:index";
-        } else {
-            flash.addFlashAttribute("error", "HA OCURRIDO UN ERROR");
-            return "registrarempresa";
-        }
-
-    }
-
-    @GetMapping(value = "/asignarproducto")
-    public String viewAsignarProducto(Model model) {
-        model.addAttribute("titulo", "Asigne un producto a la empresa");
-        List<Empresa> empresas = empresaService.findAll();
-        List<Producto> productos = productoService.findAll();
-        model.addAttribute("empresas", empresas);
-        model.addAttribute("productos", productos);
-        return "asignarproducto";
-    }
-
-    @RequestMapping(value = "/asignarproducto", method = RequestMethod.POST)
-    public String asignarProducto(EmpresaProducto empresaproducto, RedirectAttributes flash) {
-        Empresa empresa = empresaproducto.getEmpresa();
-        System.out.println(empresa.getNombre());
-        empresaProductoService.save(empresaproducto);
-        return "redirect:index";
-
-    }
-
+     
     /*
-     * @GetMapping("/listar") public List<Empresa> listar() { return
-     * empresaService.findAll(); }
-     * 
      * @GetMapping("/{id}") public Empresa consultar(@PathVariable(value = "id")
      * Long id) { return empresaService.findById(id); }
      * 

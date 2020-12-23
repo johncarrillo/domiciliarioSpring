@@ -15,7 +15,7 @@
         <div class="card border-primary text-center ">
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body">
-                <form th:action="@{/empresa/registrar}" th:object=${empresa} method="post">
+                <form th:action="@{/empresaAdmin/registrar}" th:object=${empresa} method="post">
                     <div class="form-group text-center">
                         <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre" autofocus required/>
                     </div>
